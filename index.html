@@ -28,6 +28,8 @@
       var dx = 2;
       var dy = -2;
 
+      var score = 0;
+
       var ballRadius = 10;
 
       var paddleHeight = 10;
@@ -103,10 +105,22 @@
               ) {
                 dy = -dy;
                 b.status = 0;
+                score++;
+                if (score == brickColumnCount * brickRowCount) {
+                  alert("CONGRATULATIONS, YOU WIN");
+                  document.location.reload();
+                  clearInterval(interval);
+                }
               }
             }
           }
         }
+      }
+
+      function drawScore() {
+        ctx.font = "16px Arial";
+        ctx.fillStyle = "#0095DD";
+        ctx.fillText("Score: " + score, 8, 20);
       }
 
       function drawBall() {
@@ -137,6 +151,7 @@
         drawBall();
         collisionDetection();
         drawPaddle();
+        drawScore();
 
         if (y + dy < ballRadius) {
           dy = -dy;
