@@ -1,0 +1,29 @@
+{
+  "name": "breakoutTutorial",
+  "version": "1.0.0",
+  "description": "## Building a Breakout game in pure javascript for FEW 1.2 class",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/diyarkudrat/breakoutTutorial.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/diyarkudrat/breakoutTutorial/issues"
+  },
+  "homepage": "https://github.com/diyarkudrat/breakoutTutorial#readme",
+  "dependencies": {
+    "-": "0.0.1",
+    "g": "^2.0.1"
+  },
+  "devDependencies": {
+    "eslint": "^7.18.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.22.1"
+  }
+}
