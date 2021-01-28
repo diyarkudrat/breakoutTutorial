@@ -1,20 +1,9 @@
+/* CONSTANTS */
 const canvas = document.getElementById('myCanvas');
 const ctx = canvas.getContext('2d');
-
-let x = canvas.width / 2;
-let y = canvas.height - 30;
-let dx = 2;
-let dy = -2;
-
-let score = 0;
-let lives = 3;
-
 const ballRadius = 10;
-
 const paddleHeight = 10;
 const paddleWidth = 75;
-let paddleX = (canvas.width - paddleWidth) / 2;
-
 const brickRowCount = 3;
 const brickColumnCount = 5;
 const brickWidth = 75;
@@ -23,6 +12,18 @@ const brickPadding = 10;
 const brickOffsetTop = 30;
 const brickOffsetLeft = 30;
 
+/* VARIABLES */
+let x = canvas.width / 2;
+let y = canvas.height - 30;
+let dx = 2;
+let dy = -2;
+let score = 0;
+let lives = 3;
+let paddleX = (canvas.width - paddleWidth) / 2;
+let rightPressed = false;
+let leftPressed = false;
+
+/* Bricks Array SETUP */
 const bricks = [];
 for (let c = 0; c < brickColumnCount; c += 1) {
   bricks[c] = [];
@@ -31,9 +32,7 @@ for (let c = 0; c < brickColumnCount; c += 1) {
   }
 }
 
-let rightPressed = false;
-let leftPressed = false;
-
+/* EVENT LISTENER FUNCTIONS */
 function mouseMoveHandler(e) {
   const relativeX = e.clientX - canvas.offsetLeft;
   if (relativeX > 0 && relativeX < canvas.width) {
@@ -57,10 +56,12 @@ function keyUpHandler(e) {
   }
 }
 
+/* KEY/MOUSE EVENT LISTENERS */
 document.addEventListener('keydown', keyDownHandler, false);
 document.addEventListener('keyup', keyUpHandler, false);
 document.addEventListener('mousemove', mouseMoveHandler, false);
 
+/* GAME FUNCTIONS */
 function drawBricks() {
   for (let c = 0; c < brickColumnCount; c += 1) {
     for (let r = 0; r < brickRowCount; r += 1) {
@@ -177,4 +178,5 @@ function draw() {
   requestAnimationForm(draw); // eslint-disable-line no-undef
 }
 
+/* INITIALIZE GAME */
 draw();
