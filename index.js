@@ -1,9 +1,12 @@
 /* CONSTANTS */
 const canvas = document.getElementById('myCanvas');
 const ctx = canvas.getContext('2d');
+
 const ballRadius = 10;
+
 const paddleHeight = 10;
 const paddleWidth = 75;
+
 const brickRowCount = 3;
 const brickColumnCount = 5;
 const brickWidth = 75;
@@ -11,6 +14,15 @@ const brickHeight = 20;
 const brickPadding = 10;
 const brickOffsetTop = 30;
 const brickOffsetLeft = 30;
+
+const color = '#0095DD';
+
+const ARROW_RIGHT = 'ArrowRight';
+const ARROW_LEFT = 'ArrowLeft';
+const RIGHT = 'Right';
+const LEFT = 'Left';
+
+const fontStyle = '16px Arial';
 
 /* VARIABLES */
 let x = canvas.width / 2;
@@ -41,17 +53,17 @@ function mouseMoveHandler(e) {
 }
 
 function keyDownHandler(e) {
-  if (e.key === 'Right' || e.key === 'ArrowRight') {
+  if (e.key === RIGHT || e.key === ARROW_RIGHT) {
     rightPressed = true;
-  } else if (e.key === 'Left' || e.key === 'ArrowLeft') {
+  } else if (e.key === LEFT || e.key === ARROW_LEFT) {
     leftPressed = true;
   }
 }
 
 function keyUpHandler(e) {
-  if (e.key === 'Right' || e.key === 'ArrowRight') {
+  if (e.key === RIGHT || e.key === ARROW_RIGHT) {
     rightPressed = false;
-  } else if (e.key === 'Left' || e.key === 'ArrowLeft') {
+  } else if (e.key === LEFT || e.key === ARROW_LEFT) {
     leftPressed = false;
   }
 }
@@ -72,7 +84,7 @@ function drawBricks() {
         bricks[c][r].y = brickY;
         ctx.beginPath();
         ctx.rect(brickX, brickY, brickWidth, brickHeight);
-        ctx.fillStyle = '#0095DD';
+        ctx.fillStyle = color;
         ctx.fill();
         ctx.closePath();
       }
@@ -100,21 +112,21 @@ function collisionDetection() {
 }
 
 function drawScore() {
-  ctx.font = '16px Arial';
-  ctx.fillStyle = '#0095DD';
+  ctx.font = fontStyle;
+  ctx.fillStyle = color;
   ctx.fillText(`Score: ${score}`, 8, 20);
 }
 
 function drawLives() {
-  ctx.font = '16px Arial';
-  ctx.fillStyle = '#0095DD';
+  ctx.font = fontStyle;
+  ctx.fillStyle = color;
   ctx.fillText(`Lives: ${lives}`, canvas.width - 65, 20);
 }
 
 function drawBall() {
   ctx.beginPath();
   ctx.arc(x, y, ballRadius, 0, Math.PI * 2);
-  ctx.fillStyle = '#0095DD';
+  ctx.fillStyle = color;
   ctx.fill();
   ctx.closePath();
 }
