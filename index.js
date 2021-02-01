@@ -7,6 +7,7 @@ const ballRadius = 10;
 const paddleHeight = 10;
 const paddleWidth = 75;
 
+const bricks = [];
 const brickRowCount = 3;
 const brickColumnCount = 5;
 const brickWidth = 75;
@@ -34,15 +35,6 @@ let lives = 3;
 let paddleX = (canvas.width - paddleWidth) / 2;
 let rightPressed = false;
 let leftPressed = false;
-
-/* Bricks Array SETUP */
-const bricks = [];
-for (let c = 0; c < brickColumnCount; c += 1) {
-  bricks[c] = [];
-  for (let r = 0; r < brickRowCount; r += 1) {
-    bricks[c][r] = { x: 0, y: 0, status: 1 };
-  }
-}
 
 /* EVENT LISTENER FUNCTIONS */
 function mouseMoveHandler(e) {
@@ -76,12 +68,12 @@ document.addEventListener('mousemove', mouseMoveHandler, false);
 /* GAME FUNCTIONS */
 function drawBricks() {
   for (let c = 0; c < brickColumnCount; c += 1) {
+    bricks[c] = [];
     for (let r = 0; r < brickRowCount; r += 1) {
+      const brickX = c * (brickWidth + brickPadding) + brickOffsetLeft;
+      const brickY = r * (brickHeight + brickPadding) + brickOffsetTop;
+      bricks[c][r] = { x: brickX, y: brickY, status: 1 };
       if (bricks[c][r].status === 1) {
-        const brickX = c * (brickWidth + brickPadding) + brickOffsetLeft;
-        const brickY = r * (brickHeight + brickPadding) + brickOffsetTop;
-        bricks[c][r].x = brickX;
-        bricks[c][r].y = brickY;
         ctx.beginPath();
         ctx.rect(brickX, brickY, brickWidth, brickHeight);
         ctx.fillStyle = color;
