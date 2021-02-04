@@ -18,7 +18,7 @@ class Ball {
     ctx.closePath();
   }
 
-  move() {
+  move(canvas) {
     if (this.y + this.dy > canvas.height - this.ballRadius || this.y + this.dy < this.ballRadius) {
       this.dy = -(this.dy);
     }
@@ -126,8 +126,8 @@ let leftPressed = false;
 /* EVENT LISTENER FUNCTIONS */
 function mouseMoveHandler(e) {
   const relativeX = e.clientX - canvas.offsetLeft;
-  if (relativeX > 0 && relativeX < canvasWidth) {
-    paddleX = relativeX - paddleWidth / 2;
+  if (relativeX > 0 && relativeX < canvas.width) {
+    paddle.x = relativeX - paddle.width / 2;
   }
 }
 
@@ -152,3 +152,23 @@ document.addEventListener('keydown', keyDownHandler, false);
 document.addEventListener('keyup', keyUpHandler, false);
 document.addEventListener('mousemove', mouseMoveHandler, false);
 
+function renderGame() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  ball.drawBall(ctx);
+  ball.move(canvas);
+
+  for (let c = 0; c < brickColumnCount; c += 1) {
+    for (let r = 0; r < brickRowCount; r += 1) {
+      if (bricks[c][r].status === 1) {
+        bricks[c][r].drawBrick(ctx);
+
+        bricks[c][r].detectCollision(ball);
+      }
+    }
+  }
+
+  paddle.drawPaddle(canvas, ctx, leftPressed, rightPressed);
+  ball.determineLoss(canvas, paddle);
+}
+setInterval(renderGame, 10);
