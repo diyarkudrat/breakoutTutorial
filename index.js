@@ -1,3 +1,4 @@
+/* eslint max-classes-per-file: ["error", 3] */
 /* CLASSES */
 class Ball {
   constructor() {
@@ -22,7 +23,7 @@ class Ball {
       this.dy = -(this.dy);
     }
 
-    if (this.x + this.dx > canvasWidth - this.ballRadius || this.x + this.dx < this.ballRadius) {
+    if (this.x + this.dx > canvas.width - this.ballRadius || this.x + this.dx < this.ballRadius) {
       this.dx = -(this.dx);
     }
 
@@ -38,6 +39,34 @@ class Ball {
         alert('GAME OVER'); // eslint-disable-line no-alert
         document.location.reload();
       }
+    }
+  }
+}
+
+class Brick {
+  constructor(x, y, status) {
+    this.x = x;
+    this.y = y;
+    this.status = status;
+    this.color = '#0095DD';
+    this.width = 75;
+    this.height = 20;
+  }
+
+  drawBricks(ctx) {
+    ctx.beginPath();
+    ctx.rect(this.x, this.y, this.width, this.height);
+    ctx.fillStyle = this.color;
+    ctx.fill();
+    ctx.closePath();
+  }
+
+  collisionDetection(ball) {
+    if (ball.x < this.x && ball.x < this.x + this.width
+      && ball.y > this.y
+      && ball.y < this.y + this.height) {
+      ball.dy = -(ball.dy); // eslint-disable-line
+      this.status = 0;
     }
   }
 }
@@ -74,44 +103,25 @@ let paddleX = (canvasWidth - paddleWidth) / 2;
 let rightPressed = false;
 let leftPressed = false;
 
-
 /* GAME FUNCTIONS */
-function drawBricks() {
-  for (let c = 0; c < brickColumnCount; c += 1) {
-    bricks[c] = [];
-    for (let r = 0; r < brickRowCount; r += 1) {
-      const brickX = c * (brickWidth + brickPadding) + brickOffsetLeft;
-      const brickY = r * (brickHeight + brickPadding) + brickOffsetTop;
-      bricks[c][r] = { x: brickX, y: brickY, status: 1 };
-      if (bricks[c][r].status === 1) {
-        ctx.beginPath();
-        ctx.rect(brickX, brickY, brickWidth, brickHeight);
-        ctx.fillStyle = color;
-        ctx.fill();
-        ctx.closePath();
-      }
-    }
-  }
-}
-
-function collisionDetection() {
-  for (let c = 0; c < brickColumnCount; c += 1) {
-    for (let r = 0; r < brickRowCount; r += 1) {
-      const b = bricks[c][r];
-      if (b.status === 1) {
-        if (x > b.x && x < b.x + brickWidth && y > b.y && y < b.y + brickHeight) {
-          dy = -dy;
-          b.status = 0;
-          score += 1;
-          if (score === brickColumnCount * brickRowCount) {
-            alert('CONGRATULATIONS, YOU WIN'); // eslint-disable-line no-alert
-            document.location.reload();
-          }
-        }
-      }
-    }
-  }
-}
+// function collisionDetection() {
+//   for (let c = 0; c < brickColumnCount; c += 1) {
+//     for (let r = 0; r < brickRowCount; r += 1) {
+//       const b = bricks[c][r];
+//       if (b.status === 1) {
+//         if (x > b.x && x < b.x + brickWidth && y > b.y && y < b.y + brickHeight) {
+//           dy = -dy;
+//           b.status = 0;
+//           score += 1;
+//           if (score === brickColumnCount * brickRowCount) {
+//             alert('CONGRATULATIONS, YOU WIN'); // eslint-disable-line no-alert
+//             document.location.reload();
+//           }
+//         }
+//       }
+//     }
+//   }
+// }
 
 function drawScore() {
   ctx.font = fontStyle;
