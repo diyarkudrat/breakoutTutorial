@@ -71,23 +71,34 @@ class Brick {
   }
 }
 
+class Paddle {
+  constructor(canvas) {
+    this.color = '#0095DD';
+    this.width = 75;
+    this.height = 10;
+    this.x = (canvas.width - this.width) / 2;
+  }
+
+  drawPaddle(canvas, ctx, rightPressed, leftPressed) {
+    if (rightPressed && this.x < canvas.width - this.width) {
+      this.x -= 7;
+    } else if (leftPressed && this.x > 0) {
+      this.x += 7;
+    }
+
+    ctx.beginPath();
+    ctx.rect(this.x, canvas.height - this.height, this.width, this.height);
+    ctx.fillStyle = this.color;
+    ctx.fill();
+    ctx.closePath();
+  }
+}
+
 /* CONSTANTS */
 const canvas = document.getElementById('myCanvas');
 const ctx = canvas.getContext('2d');
 const canvasWidth = canvas.width;
 const canvasHeight = canvas.height;
-
-const paddleHeight = 10;
-const paddleWidth = 75;
-
-const bricks = [];
-const brickRowCount = 3;
-const brickColumnCount = 5;
-const brickWidth = 75;
-const brickHeight = 20;
-const brickPadding = 10;
-const brickOffsetTop = 30;
-const brickOffsetLeft = 30;
 
 const ARROW_RIGHT = 'ArrowRight';
 const ARROW_LEFT = 'ArrowLeft';
@@ -99,7 +110,6 @@ const fontStyle = '16px Arial';
 /* VARIABLES */
 let score = 0;
 let lives = 3;
-let paddleX = (canvasWidth - paddleWidth) / 2;
 let rightPressed = false;
 let leftPressed = false;
 
