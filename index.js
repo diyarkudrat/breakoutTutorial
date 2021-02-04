@@ -97,107 +97,31 @@ class Paddle {
 /* CONSTANTS */
 const canvas = document.getElementById('myCanvas');
 const ctx = canvas.getContext('2d');
-const canvasWidth = canvas.width;
-const canvasHeight = canvas.height;
 
-const ARROW_RIGHT = 'ArrowRight';
-const ARROW_LEFT = 'ArrowLeft';
-const RIGHT = 'Right';
-const LEFT = 'Left';
+/* INIT CLASS OBJECTS */
+const ball = new Ball();
+const paddle = new Paddle();
 
-const fontStyle = '16px Arial';
-
-/* VARIABLES */
-let score = 0;
-let lives = 3;
-let rightPressed = false;
-let leftPressed = false;
-
-/* GAME FUNCTIONS */
-// function collisionDetection() {
-//   for (let c = 0; c < brickColumnCount; c += 1) {
-//     for (let r = 0; r < brickRowCount; r += 1) {
-//       const b = bricks[c][r];
-//       if (b.status === 1) {
-//         if (x > b.x && x < b.x + brickWidth && y > b.y && y < b.y + brickHeight) {
-//           dy = -dy;
-//           b.status = 0;
-//           score += 1;
-//           if (score === brickColumnCount * brickRowCount) {
-//             alert('CONGRATULATIONS, YOU WIN'); // eslint-disable-line no-alert
-//             document.location.reload();
-//           }
-//         }
-//       }
-//     }
-//   }
-// }
-
-function drawScore() {
-  ctx.font = fontStyle;
-  ctx.fillStyle = color;
-  ctx.fillText(`Score: ${score}`, 8, 20);
-}
-
-function drawLives() {
-  ctx.font = fontStyle;
-  ctx.fillStyle = color;
-  ctx.fillText(`Lives: ${lives}`, canvasWidth - 65, 20);
-}
-
-function drawBall() {
-  ctx.beginPath();
-  ctx.arc(x, y, ballRadius, 0, Math.PI * 2);
-  ctx.fillStyle = color;
-  ctx.fill();
-  ctx.closePath();
-}
-
-function drawPaddle() {
-  ctx.beginPath();
-  ctx.rect(paddleX, canvasHeight - paddleHeight, paddleWidth, paddleHeight);
-  ctx.fillStyle = '#2824KG';
-  ctx.fill();
-  ctx.closePath();
-}
-
-function moveBall() {
-  x += dx;
-  y += dy;
-}
-
-function checkKeys() {
-  if (rightPressed) {
-    paddleX += 7;
-    if (paddleX + paddleWidth > canvasWidth) {
-      paddleX = canvasWidth - paddleWidth;
-    }
-  } else if (leftPressed) {
-    paddleX -= 7;
-    if (paddleX < 0) {
-      paddleX = 0;
-    }
+// BRICK VALUES
+const brickRowCount = 5;
+const brickColumnCount = 3;
+const brickWidth = 75;
+const brickHeight = 20;
+const brickPadding = 10;
+const brickOffsetTop = 30;
+const brickOffsetLeft = 30;
+const bricks = [];
+for (let c = 0; c < brickColumnCount; c += 1) {
+  bricks[c] = [];
+  for (let r = 0; r < brickRowCount; r += 1) {
+    const brickX = (r * (brickWidth + brickPadding)) + brickOffsetLeft;
+    const brickY = (c * (brickHeight + brickPadding)) + brickOffsetTop;
+    bricks[c][r] = new Brick(brickX, brickY, 1);
   }
 }
 
-function draw() {
-  ctx.clearRect(0, 0, canvasWidth, canvasHeight);
-
-  drawBricks();
-  drawBall();
-  collisionDetection();
-  drawPaddle();
-  drawScore();
-  drawLives();
-
-  collisionCanvas();
-
-  moveBall();
-
-  checkKeys();
-
-  requestAnimationForm(draw); // eslint-disable-line no-undef
-}
+let rightPressed = false;
+let leftPressed = false;
 
 /* EVENT LISTENER FUNCTIONS */
 function mouseMoveHandler(e) {
@@ -208,17 +132,17 @@ function mouseMoveHandler(e) {
 }
 
 function keyDownHandler(e) {
-  if (e.key === RIGHT || e.key === ARROW_RIGHT) {
+  if (e.key === 'Right' || e.key === 'ArrowRight') {
     rightPressed = true;
-  } else if (e.key === LEFT || e.key === ARROW_LEFT) {
+  } else if (e.key === 'Left' || e.key === 'ArrowLeft') {
     leftPressed = true;
   }
 }
 
 function keyUpHandler(e) {
-  if (e.key === RIGHT || e.key === ARROW_RIGHT) {
+  if (e.key === 'Right' || e.key === 'ArrowRight') {
     rightPressed = false;
-  } else if (e.key === LEFT || e.key === ARROW_LEFT) {
+  } else if (e.key === 'Left' || e.key === 'ArrowLeft') {
     leftPressed = false;
   }
 }
@@ -228,5 +152,3 @@ document.addEventListener('keydown', keyDownHandler, false);
 document.addEventListener('keyup', keyUpHandler, false);
 document.addEventListener('mousemove', mouseMoveHandler, false);
 
-/* INITIALIZE GAME */
-draw();
